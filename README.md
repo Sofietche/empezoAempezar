@@ -23,18 +23,6 @@ Inicia el bundler de Expo:
 npm run start
 ```
 
-### macOS: evitar `EMFILE: too many open files`
-
-En macOS puede aparecer el error `EMFILE` cuando Metro intenta observar demasiados archivos.
-Para aumentar el límite temporalmente en la terminal actual ejecuta:
-
-```bash
-npm run start:mac
-```
-
-Ese comando establece un límite más alto de archivos abiertos antes de iniciar Expo.
-Si prefieres hacerlo manualmente, puedes ejecutar `ulimit -n 10480` y luego `npm run start`.
-
 Desde el menú de Expo puedes elegir:
 
 - Presionar `i` para abrir la app en el simulador de iOS (requiere Xcode).
