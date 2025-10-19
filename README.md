@@ -8,7 +8,6 @@ Aplicación de juego de previas/copas construida con Expo + React Native. El obj
 - npm 9+ o yarn
 - [Expo CLI](https://docs.expo.dev/get-started/installation/) (se instala automáticamente con `npx expo`)
 - Xcode (para ejecutar en iOS) y/o Android Studio (para emular en Android)
-- **macOS:** se recomienda instalar [Watchman](https://facebook.github.io/watchman/) con `brew install watchman` para que Metro use watchers nativos eficientes y evitar el error `EMFILE`.
 
 ## Instalación
 
@@ -23,17 +22,6 @@ Inicia el bundler de Expo:
 ```bash
 npm run start
 ```
-
-> [!TIP]
-> En macOS el script de arranque intenta aumentar automáticamente los límites suave y duro de
-> archivos abiertos (usando `launchctl` y `ulimit`) antes de iniciar Expo para evitar el error
-> `EMFILE: too many open files`. Si aún ves el error:
-> 
-> 1. Cierra la terminal, ábrela de nuevo y vuelve a ejecutar `npm run start` (los cambios de `launchctl` requieren una nueva sesión para aplicarse).
-> 2. Instala Watchman con `brew install watchman` para que Metro utilice el watcher nativo.
-> 3. Ajusta manualmente el objetivo exportando `EXPO_TARGET_FILE_LIMIT=20480 npm run start` si necesitas un límite más alto.
-> 
-> En otros sistemas operativos el comportamiento es el mismo que `npx expo start`.
 
 Desde el menú de Expo puedes elegir:
 
