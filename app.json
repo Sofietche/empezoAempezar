@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "Empezó a Empezar",
+    "slug": "empezo-a-empezar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#050510"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false
+    }
+  }
+}
