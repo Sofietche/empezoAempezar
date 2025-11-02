@@ -14,7 +14,9 @@ const WelcomeScreen = ({
   onUpdatePlayer,
   onRemovePlayer,
   onStartGame,
-  neonAccent
+  neonAccent,
+  isLoading,
+  deckError
 }) => (
   <GradientScreen
     colors={['#02010A', '#08051F', '#0F0B33']}
@@ -49,10 +51,13 @@ const WelcomeScreen = ({
       />
     )}
     <PrimaryButton
-      label="Comenzar partida"
+      label={isLoading ? 'Sincronizando mazo...' : 'Comenzar partida'}
       onPress={onStartGame}
+      disabled={isLoading}
+      loading={isLoading}
       style={[styles.primaryButton, { shadowColor: neonAccent }]}
     />
+    {deckError && <Text style={styles.errorText}>{deckError}</Text>}
     <Text style={styles.hintText}>
       Desliza cada carta hacia la izquierda o derecha para revelar la siguiente.
     </Text>

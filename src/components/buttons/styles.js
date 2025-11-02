@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 6
   },
+  primaryButtonDisabled: {
+    opacity: 0.6
+  },
   primaryButtonText: {
     color: '#FFFFFF',
     fontSize: 18,

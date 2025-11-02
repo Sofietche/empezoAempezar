@@ -25,6 +25,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  errorText: {
+    color: '#FF7A9B',
+    textAlign: 'center',
+    marginTop: 12,
+    marginBottom: 8,
+    fontSize: 13
   }
 });
 

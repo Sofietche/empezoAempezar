@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
   primaryButton: {
     shadowColor: '#5F5BFF'
   },
+  errorText: {
+    marginTop: 16,
+    color: '#FF7A9B',
+    fontSize: 14,
+    textAlign: 'center'
+  },
   hintText: {
     marginTop: 16,
     color: '#7474A5',

@@ -15,7 +15,8 @@ const GameScreen = ({
   animatedCardStyle,
   panHandlers,
   onReset,
-  onNextCard
+  onNextCard,
+  deckError
 }) => (
   <GradientScreen
     colors={['#02010A', '#0A0820', '#130F3A']}
@@ -41,6 +42,7 @@ const GameScreen = ({
         <EndOfDeck hasPlayers={Boolean(players.length)} onReset={onReset} />
       )}
     </View>
+    {deckError && <Text style={styles.errorText}>{deckError}</Text>}
     {currentCard && (
       <SecondaryButton label="Siguiente carta" onPress={onNextCard} />
     )}

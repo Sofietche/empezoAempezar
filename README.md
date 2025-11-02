@@ -41,13 +41,33 @@ Desde el menú de Expo puedes elegir:
 - Presionar `a` para abrir la app en un emulador de Android (requiere Android Studio).
 - Escanear el QR con la app Expo Go en tu dispositivo físico para probar en vivo.
 
+## Integración con Firebase
+
+La app puede sincronizar el mazo de cartas desde una colección alojada en Cloud Firestore. Si la descarga falla o la colección
+está vacía, automáticamente se vuelve al mazo local incluido en el código para que el juego siga siendo funcional.
+
+1. Crea un proyecto en [Firebase Console](https://console.firebase.google.com/) y habilita **Firestore Database**.
+2. Dentro de Firestore crea una colección llamada `deck`. Cada documento debe incluir al menos:
+   - `text` (`string`): contenido principal de la carta.
+   - `type` (`string`): usa `"pregunta"` o `"reto"` para que la UI aplique los estilos correctos.
+   - `order` (`number`, opcional): valor utilizado para ordenar antes de barajar.
+3. Copia las credenciales de la app web de Firebase y actualiza `src/config/firebaseConfig.js` con tus valores reales.
+4. (Opcional) Si no quieres subir esas claves al repositorio, puedes marcar el archivo con `git update-index --skip-worktree src/config/firebaseConfig.js` una vez que tengas tus valores cargados.
+
+> [!NOTE]
+> El hook `useGameState` intentará sincronizarse con Firebase cada vez que comience una partida. Si ocurre un error (por reglas
+> restrictivas, credenciales inválidas o falta de conexión) verás un aviso en pantalla y se seguirá utilizando el mazo local
+> definido en `src/constants/deck.js`.
+
 ## Estructura
 
 - `App.js`: Punto de entrada que decide entre pantallas de bienvenida y juego.
 - `src/screens/WelcomeScreen` y `src/screens/GameScreen`: Contienen la UI y estilos específicos de cada etapa.
 - `src/components`: Piezas reutilizables del juego (botones, cartas, configurador de jugadores, fin del mazo, etc.).
 - `src/components/layout/GradientScreen`: Contenedor común con gradiente y `SafeAreaView` para mantener coherencia visual.
-- `src/hooks/useGameState.js`: Lógica del mazo, jugadores y gestos de swipe.
+- `src/hooks/useGameState.js`: Lógica del mazo, jugadores, sincronización con Firebase y gestos de swipe.
+- `src/services/decks/deckRepository.js`: Lectura del mazo desde Firestore.
+- `src/services/firebase/app.js`: Inicialización de Firebase a partir de la configuración local.
 
 ## Características implementadas
 
@@ -55,6 +75,7 @@ Desde el menú de Expo puedes elegir:
 - Modo libre y modo con jugadores asignables.
 - Cartas con swipe horizontal (izquierda/derecha) usando gestos y animaciones.
 - Botón para pasar carta manualmente y reiniciar la partida.
+- Sincronización opcional del mazo con Firestore usando Firebase.
 
 ## Recursos gráficos
 

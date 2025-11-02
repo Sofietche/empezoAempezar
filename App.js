@@ -16,6 +16,8 @@ export default function App() {
     neonAccent,
     animatedCardStyle,
     panHandlers,
+    isLoadingDeck,
+    deckError,
     startGame,
     showNextCard,
     resetGame,
@@ -34,6 +36,8 @@ export default function App() {
         onUpdatePlayer={updatePlayerName}
         onRemovePlayer={removePlayerInput}
         onStartGame={startGame}
+        isLoading={isLoadingDeck}
+        deckError={deckError}
         neonAccent={neonAccent}
       />
     );
@@ -50,6 +54,7 @@ export default function App() {
       panHandlers={panHandlers}
       onReset={resetGame}
       onNextCard={showNextCard}
+      deckError={deckError}
     />
   );
 }

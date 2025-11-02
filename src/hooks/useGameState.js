@@ -3,6 +3,7 @@ import { Animated, Dimensions, PanResponder } from 'react-native';
 import { BASE_DECK } from '../constants/deck';
 import { NEON_COLORS } from '../constants/colors';
 import { shuffle } from '../utils/shuffle';
+import { fetchDeckFromFirebase } from '../services/decks/deckRepository';
 
 const { width } = Dimensions.get('window');
 
@@ -27,6 +28,8 @@ const useGameState = () => {
   const [players, setPlayers] = useState([]);
   const [deck, setDeck] = useState([]);
   const [cardIndex, setCardIndex] = useState(0);
+  const [isLoadingDeck, setIsLoadingDeck] = useState(false);
+  const [deckError, setDeckError] = useState(null);
 
   const pan = useRef(new Animated.ValueXY()).current;
 
@@ -60,6 +63,7 @@ const useGameState = () => {
     setDeck([]);
     setCardIndex(0);
     setScreen('welcome');
+    setIsLoadingDeck(false);
     resetPan();
   }, [resetPan]);
 
@@ -115,17 +119,47 @@ const useGameState = () => {
     setPlayerInputs((prev) => prev.filter((_, idx) => idx !== index));
   }, []);
 
-  const startGame = useCallback(() => {
+  const startGame = useCallback(async () => {
     const sanitizedPlayers = mode === 'jugadores' ? sanitizePlayers(playerInputs) : [];
 
     setPlayers(sanitizedPlayers);
 
-    const randomizedDeck = assignPlayersToDeck(shuffle(BASE_DECK), sanitizedPlayers);
+    setIsLoadingDeck(true);
+    setDeckError(null);
 
-    setDeck(randomizedDeck);
-    setCardIndex(0);
-    setScreen('game');
-    resetPan();
+    try {
+      const remoteDeck = await fetchDeckFromFirebase();
+      const usingRemoteDeck = remoteDeck.length > 0;
+      const sourceDeck = usingRemoteDeck ? remoteDeck : BASE_DECK;
+
+      if (!usingRemoteDeck) {
+        setDeckError(
+          'No se encontraron cartas en Firebase. Se utilizará el mazo local hasta que cargues contenido.'
+        );
+      }
+
+      const randomizedDeck = assignPlayersToDeck(shuffle(sourceDeck), sanitizedPlayers);
+
+      setDeck(randomizedDeck);
+      setCardIndex(0);
+      setScreen('game');
+      resetPan();
+      if (usingRemoteDeck) {
+        setDeckError(null);
+      }
+    } catch (error) {
+      console.warn('No se pudo cargar el mazo desde Firebase, usando mazo local.', error);
+      const fallbackDeck = assignPlayersToDeck(shuffle(BASE_DECK), sanitizedPlayers);
+      setDeck(fallbackDeck);
+      setCardIndex(0);
+      setScreen('game');
+      resetPan();
+      setDeckError(
+        'No pudimos sincronizar con Firebase. Se está usando el mazo local para continuar.'
+      );
+    } finally {
+      setIsLoadingDeck(false);
+    }
   }, [mode, playerInputs, resetPan]);
 
   const currentCard = deck[cardIndex];
@@ -150,6 +184,8 @@ const useGameState = () => {
     neonAccent,
     animatedCardStyle,
     panHandlers: cardPanResponder.panHandlers,
+    isLoadingDeck,
+    deckError,
     startGame,
     showNextCard,
     resetGame,
