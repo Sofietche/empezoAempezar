@@ -9,7 +9,6 @@ Aplicación de juego de previas/copas construida con Expo + React Native. El obj
 - [Expo CLI](https://docs.expo.dev/get-started/installation/) (se instala automáticamente con `npx expo`)
 - Xcode (para ejecutar en iOS) y/o Android Studio (para emular en Android)
 - **macOS:** se recomienda instalar [Watchman](https://facebook.github.io/watchman/) con `brew install watchman` para que Metro use watchers nativos eficientes y evitar el error `EMFILE`.
-- Proyecto de Firebase con Firestore habilitado (ver sección "Integración con Firebase").
 
 ## Instalación
 
