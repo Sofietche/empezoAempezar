@@ -1,18 +1,26 @@
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../config/firebaseConfig';
 
-const validateConfig = () => {
+const REQUIRED_KEYS = ['apiKey', 'projectId', 'appId'];
+
+export const isFirebaseConfigured = () => {
   if (!firebaseConfig) {
-    throw new Error('Firebase config is undefined. Revisa src/config/firebaseConfig.js.');
+    return false;
   }
 
-  const requiredKeys = ['apiKey', 'projectId', 'appId'];
-  const missing = requiredKeys.filter((key) => {
+  return REQUIRED_KEYS.every((key) => {
     const value = firebaseConfig[key];
-    return !value || value.includes('YOUR_');
+    return typeof value === 'string' && value.trim() && !value.includes('YOUR_');
   });
+};
 
-  if (missing.length) {
+const validateConfig = () => {
+  if (!isFirebaseConfigured()) {
+    const missing = REQUIRED_KEYS.filter((key) => {
+      const value = firebaseConfig?.[key];
+      return !value || value.includes('YOUR_');
+    });
+
     throw new Error(
       `Configura Firebase completando los campos: ${missing.join(', ')} en src/config/firebaseConfig.js.`
     );

@@ -9,6 +9,7 @@ Aplicación de juego de previas/copas construida con Expo + React Native. El obj
 - [Expo CLI](https://docs.expo.dev/get-started/installation/) (se instala automáticamente con `npx expo`)
 - Xcode (para ejecutar en iOS) y/o Android Studio (para emular en Android)
 - **macOS:** se recomienda instalar [Watchman](https://facebook.github.io/watchman/) con `brew install watchman` para que Metro use watchers nativos eficientes y evitar el error `EMFILE`.
+- Proyecto de Firebase con Firestore habilitado (ver sección "Integración con Firebase").
 
 ## Instalación
 
@@ -51,7 +52,7 @@ está vacía, automáticamente se vuelve al mazo local incluido en el código pa
    - `text` (`string`): contenido principal de la carta.
    - `type` (`string`): usa `"pregunta"` o `"reto"` para que la UI aplique los estilos correctos.
    - `order` (`number`, opcional): valor utilizado para ordenar antes de barajar.
-3. Copia las credenciales de la app web de Firebase y actualiza `src/config/firebaseConfig.js` con tus valores reales.
+3. Copia las credenciales de la app web de Firebase y actualiza `src/config/firebaseConfig.js` con tus valores reales. Si los valores permanecen con `YOUR_...`, la app omitirá la sincronización remota y seguirá usando el mazo local.
 4. (Opcional) Si no quieres subir esas claves al repositorio, puedes marcar el archivo con `git update-index --skip-worktree src/config/firebaseConfig.js` una vez que tengas tus valores cargados.
 
 > [!NOTE]
